@@ -13,19 +13,6 @@ Quatro agentes reais, com dados fictícios. O Gemini decide quais ferramentas ch
 | Análise de vendas | `info_base`, `resumo_periodo`, `top_produtos`, `comparar_periodos`, `vendas_por_dia_da_semana`, `entregar_resposta` | Todas as contas; cada número da resposta traz a origem |
 | Layout de site | `listar_secoes`, `listar_fontes`, `verificar_contraste`, `entregar_proposta` | Seções do catálogo, fontes válidas, contraste WCAG ≥ 4,5:1 |
 
-- `api/agente.js`: função serverless na Vercel com o laço do agente (até 8 passos).
-- `api/_agentes.js`: dados fictícios, ferramentas e regras.
 - `agentes/index.html`: a página, com o caminho do agente e o botão de aprovação.
-
-### Variáveis na Vercel
-
-| Nome | Para quê |
-|---|---|
-| `GEMINI_API_KEY` | Liga os agentes (Production e Preview) |
-| `GEMINI_MODEL` | Opcional. Padrão `gemini-3.5-flash-lite` |
-
-### Testes
-
-```bash
-npm test
-```
+- `vercel.json`: encaminha `/api/agente` para a função serverless que roda no projeto do Ouvidoria Intelligence, onde fica a chave do Gemini.
+- O código do servidor e os testes estão no repositório [Ouvidoria-Intelligence](https://github.com/Kelchsun/Ouvidoria-Intelligence): `api/agente.js` (laço do agente, até 8 passos), `api/_agentes.js` (dados fictícios, ferramentas e regras) e `tests/agentes.test.js`.

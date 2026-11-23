@@ -1,7 +1,0 @@
-{
-  "name": "portfolio-ai-builder",
-  "private": true,
-  "type": "module",
-  "engines": { "node": "24.x" },
-  "scripts": { "test": "node --test tests/*.test.js" }
-}
