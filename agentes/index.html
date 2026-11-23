@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agentes de IA · Kelvin de Souza Silva</title>
+<meta name="description" content="Quatro agentes de IA reais: o Gemini escolhe as ferramentas, o código faz as contas e confere as regras, e uma pessoa aprova a entrega.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{--ink:#171915;--paper:#f3efe5;--card:#fffdf7;--acc:#c5f36b;--green:#38711d;--aqua:#bdeee2;--lilac:#ddd3ff;--amber:#ffd99a;--coral:#ffab96;--muted:#5d6058;
+  --disp:"Archivo Black","Arial Black",system-ui,sans-serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:clip}
+body{background:var(--paper);color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{width:min(1160px,calc(100% - 32px));margin-inline:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em;line-height:1;margin:0;text-wrap:balance}
+p{margin:0}
+.top{padding:22px 0;border-bottom:1.5px solid var(--ink)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.back{font-weight:700;text-decoration:none;border:1.5px solid var(--ink);border-radius:99px;padding:8px 14px;background:var(--card)}
+.back:hover{background:var(--ink);color:var(--paper)}
+.tag{font:700 .72rem var(--body);letter-spacing:.12em;text-transform:uppercase}
+.hero{padding:clamp(40px,7vw,88px) 0 32px;display:grid;gap:18px}
+.hero h1{font-size:clamp(2.4rem,7vw,5.4rem)}
+.hero h1 em{font-style:normal;background:var(--acc);padding:0 .12em;border-radius:.12em}
+.lede{max-width:62ch;font-size:1.08rem}
+.rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:8px}
+.rule{border:1.5px solid var(--ink);border-radius:18px;padding:14px 16px;background:var(--card);display:grid;gap:4px}
+.rule b{font-family:var(--disp);font-weight:400;font-size:1.05rem}
+.rule span{font-size:.92rem;color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 18px}
+.tabs button{font:700 .95rem var(--body);border:1.5px solid var(--ink);background:var(--card);border-radius:99px;padding:10px 16px;cursor:pointer;color:var(--ink)}
+.tabs button b{font-family:var(--mono);font-weight:600;margin-right:8px;opacity:.6}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tabs button:focus-visible,.btn:focus-visible,textarea:focus-visible,.chip:focus-visible,summary:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;padding-bottom:72px}
+.box{background:var(--card);border:1.5px solid var(--ink);border-radius:24px;padding:clamp(18px,2.6vw,28px);display:grid;gap:16px;align-content:start;min-width:0}
+.box h2{font-size:clamp(1.6rem,3vw,2.3rem)}
+.flow{display:flex;gap:6px;flex-wrap:wrap;font-size:.85rem}
+.flow span{border:1.5px solid var(--ink);border-radius:99px;padding:4px 10px;background:var(--paper)}
+.flow span.ai{background:var(--acc)}
+details.data{border:1.5px dashed var(--ink);border-radius:14px;padding:10px 14px}
+details.data summary{cursor:pointer;font-weight:700}
+.tbl{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:.84rem;min-width:420px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid #d8d3c4;vertical-align:top}
+th{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+label.lb{font-weight:700;font-size:.92rem}
+textarea{width:100%;font:inherit;border:1.5px solid var(--ink);border-radius:14px;padding:12px;background:#fff;color:var(--ink);resize:vertical;min-height:84px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:600 .82rem var(--body);border:1.5px solid var(--ink);background:var(--paper);border-radius:99px;padding:6px 11px;cursor:pointer;color:var(--ink);text-align:left}
+.chip:hover{background:var(--aqua)}
+.btn{font:800 1rem var(--body);border:1.5px solid var(--ink);border-radius:99px;padding:13px 22px;cursor:pointer;background:var(--acc);color:var(--ink);justify-self:start}
+.btn:hover:not(:disabled){background:var(--ink);color:var(--paper)}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn.ghost{background:var(--card)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.empty{color:var(--muted);border:1.5px dashed #bdb7a6;border-radius:18px;padding:22px;text-align:center}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;counter-increment:s}
+.steps li::before{content:counter(s);font:700 .78rem var(--mono);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper)}
+.steps li.no::before{background:#b3261e}
+.steps li.ok::before{background:var(--green)}
+.steps code{font-family:var(--mono);font-size:.84rem;font-weight:600}
+.steps small{display:block;color:var(--muted);font-size:.82rem;overflow-wrap:anywhere}
+.steps details summary{cursor:pointer;font-size:.8rem;color:var(--muted)}
+.steps pre{font:.75rem/1.4 var(--mono);background:var(--paper);border-radius:10px;padding:10px;max-height:220px;overflow:auto;white-space:pre-wrap;margin:6px 0 0}
+.meta{display:flex;gap:14px;flex-wrap:wrap;font:600 .78rem var(--mono);color:var(--muted)}
+.pill{display:inline-block;font:700 .72rem var(--body);padding:3px 8px;border-radius:99px;border:1.5px solid var(--ink)}
+.p-venc{background:var(--coral)} .p-urg{background:var(--amber)} .p-at{background:var(--lilac)} .p-ok{background:var(--aqua)}
+.people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.person{border:1.5px solid var(--ink);border-radius:14px;padding:12px;display:grid;gap:6px;background:var(--paper)}
+.person b{font-family:var(--disp);font-weight:400}
+.load{height:8px;border-radius:99px;background:#ddd8c8;overflow:hidden}
+.load i{display:block;height:100%;background:var(--green)}
+.answer{font-size:1.05rem;white-space:pre-wrap}
+.approve{border-top:1.5px solid var(--ink);padding-top:14px;display:grid;gap:10px}
+.ok-msg{background:var(--acc);border-radius:14px;padding:10px 14px;font-weight:700}
+.err{background:var(--coral);border:1.5px solid var(--ink);border-radius:14px;padding:12px 14px;font-weight:600}
+.mock{border:1.5px solid var(--ink);border-radius:18px;overflow:hidden}
+.mock .bar{display:flex;gap:6px;align-items:center;padding:8px 12px;border-bottom:1.5px solid var(--ink);background:var(--paper);font:600 .75rem var(--mono)}
+.mock .bar i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--ink)}
+.mock section{padding:18px 20px;border-bottom:1px solid rgba(0,0,0,.08)}
+.mock section:last-child{border-bottom:0}
+.mock .kind{font:600 .62rem var(--mono);letter-spacing:.1em;text-transform:uppercase;opacity:.6}
+.mock h4{margin:4px 0 6px;font-size:1.15rem}
+.mock .shero h4{font-size:1.7rem;line-height:1.05}
+.mock .cta{display:inline-block;margin-top:10px;padding:8px 14px;border-radius:99px;font-weight:700;font-size:.85rem}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;font:.75rem var(--mono)}
+.swatches span{display:flex;gap:6px;align-items:center}
+.swatches i{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--ink)}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spinner{animation:none}}
+footer{border-top:1.5px solid var(--ink);padding:24px 0 40px;font-size:.9rem;color:var(--muted)}
+@media (max-width:860px){.panel,.rules,.people{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="back" href="/#agentes">← Voltar ao portfólio</a><span class="tag">Dados fictícios · Gemini ao vivo</span></div></header>
+<main class="wrap">
+  <section class="hero">
+    <span class="tag">Kelvin de Souza Silva · Agentes de IA</span>
+    <h1>Agentes que <em>trabalham</em> e pedem aprovação</h1>
+    <p class="lede">Cada agente recebe um objetivo e um conjunto de ferramentas. O Gemini decide quais ferramentas chamar e em que ordem. Quem faz as contas e confere as regras é o código, e a entrega só é aceita se passar nessa conferência. No fim, uma pessoa aprova.</p>
+    <div class="rules">
+      <div class="rule"><b>A IA decide o caminho</b><span>Chama ferramentas com function calling e corrige quando é recusada.</span></div>
+      <div class="rule"><b>O código faz a conta</b><span>Prazos, cargas, receitas e contraste de cores nunca vêm do modelo.</span></div>
+      <div class="rule"><b>A pessoa aprova</b><span>Nenhuma entrega vale sem o seu "Aprovar".</span></div>
+    </div>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Agentes" id="tabs"></div>
+  <div class="panel" id="panel"></div>
+</main>
+<footer><div class="wrap">Construído com Claude Code. Front-end em HTML, CSS e JavaScript; função serverless na Vercel; API do Gemini com function calling. Todos os dados são fictícios.</div></footer>
+
+<script>
+const AG=[
+ {id:'demandas',n:'01',nome:'Distribuição de demandas',desc:'Lê as demandas do dia e a equipe, monta um plano, testa contra as regras (especialidade, carga e prazo) e corrige até passar.',fluxo:['listar_demandas','listar_equipe','avaliar_plano','entregar_plano']},
+ {id:'prazos',n:'02',nome:'Controle de prazos',desc:'Calcula quantos dias faltam em cada processo, separa vencidos e urgentes e monta o briefing do dia com quem precisa agir. Inspirado na rotina de prazos do MPRJ.',fluxo:['calcular_prazos','detalhar_processo','entregar_briefing']},
+ {id:'vendas',n:'03',nome:'Análise de vendas',desc:'Responde perguntas do dono de uma loja sobre 90 dias de vendas. Cada número da resposta mostra de qual ferramenta veio.',fluxo:['info_base','resumo_periodo','top_produtos','comparar_periodos','entregar_resposta'],
+  input:'Pergunta para o agente',sug:['Qual produto mais faturou nos últimos 30 dias?','As vendas do último mês foram melhores que as do mês anterior?','Em que dia da semana devo reforçar o estoque?']},
+ {id:'layout',n:'04',nome:'Ideias de layout de site',desc:'Recebe a descrição de um negócio e propõe a página inicial: ordem das seções, textos, paleta e fontes. O contraste das cores é conferido pela regra de acessibilidade (WCAG).',fluxo:['listar_secoes','listar_fontes','verificar_contraste','entregar_proposta'],
+  input:'Descreva o negócio',sug:['Barbearia de bairro em Seropédica, público jovem, agendamento pelo WhatsApp','Confeitaria artesanal que vende bolos por encomenda','Escritório de contabilidade para MEIs']},
+];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const brl=v=>Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const fmtD=d=>d?d.split('-').reverse().join('/'):'';
+let cur=AG[0].id, busy=false, last={}, dados={};
+
+$('#tabs').innerHTML=AG.map(a=>`<button role="tab" id="tab-${a.id}" aria-selected="${a.id===cur}" aria-controls="panel" data-id="${a.id}"><b>${a.n}</b>${esc(a.nome)}</button>`).join('');
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||busy)return;location.hash=b.dataset.id});
+addEventListener('hashchange',route);
+
+function route(){const h=location.hash.slice(1);cur=AG.some(a=>a.id===h)?h:AG[0].id;
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.id===cur));render();loadData(cur)}
+
+async function loadData(id){if(dados[id])return;try{const r=await fetch('/api/agente?agente='+id);if(r.ok){dados[id]=await r.json();if(id===cur)render()}}catch(e){}}
+
+function dataView(id){const d=dados[id];if(!d)return'<p style="color:var(--muted)">Carregando os dados…</p>';
+  if(id==='demandas')return`<div class="tbl"><table><thead><tr><th>Demanda</th><th>Tipo</th><th class="n">Esforço</th><th class="n">Prazo</th></tr></thead><tbody>${d.demandas.map(x=>`<tr><td><b>${x.id}</b> ${esc(x.descricao)}</td><td>${x.tipo}</td><td class="n">${x.esforco_min} min</td><td class="n">${x.prazo_horas} h</td></tr>`).join('')}</tbody></table></div>
+   <div class="tbl"><table><thead><tr><th>Pessoa</th><th>Especialidades</th><th class="n">Livre hoje</th></tr></thead><tbody>${d.equipe.map(p=>`<tr><td><b>${p.pessoa}</b></td><td>${p.especialidades.join(', ')}</td><td class="n">${p.minutos_livres} min</td></tr>`).join('')}</tbody></table></div>`;
+  if(id==='prazos')return`<div class="tbl"><table><thead><tr><th>Processo</th><th>Responsável</th><th class="n">Prazo final</th></tr></thead><tbody>${d.processos.map(p=>`<tr><td><b>${p.id}</b> ${esc(p.assunto)}</td><td>${p.responsavel}</td><td class="n">${fmtD(p.prazo_final)}</td></tr>`).join('')}</tbody></table></div>`;
+  if(id==='vendas')return`<p>${d.linhas} linhas de venda, de ${fmtD(d.inicio)} a ${fmtD(d.fim)}.</p><div class="tbl"><table><thead><tr><th>Produto</th><th>Categoria</th><th class="n">Preço</th></tr></thead><tbody>${d.produtos.map(p=>`<tr><td>${esc(p.produto)}</td><td>${p.categoria}</td><td class="n">${brl(p.preco)}</td></tr>`).join('')}</tbody></table></div>`;
+  if(id==='layout')return`<div class="tbl"><table><thead><tr><th>Seção</th><th>Para que serve</th></tr></thead><tbody>${Object.entries(d.secoes).map(([k,v])=>`<tr><td><code>${k}</code></td><td>${esc(v)}</td></tr>`).join('')}</tbody></table></div><p style="margin-top:8px"><b>Fontes:</b> ${d.fontes.join(', ')}</p>`;
+}
+
+function render(){const a=AG.find(x=>x.id===cur),res=last[cur];
+  $('#panel').setAttribute('aria-labelledby','tab-'+cur);
+  $('#panel').innerHTML=`<div class="box">
+    <span class="tag">Agente ${a.n}</span><h2>${esc(a.nome)}</h2><p>${esc(a.desc)}</p>
+    <div class="flow" aria-label="Ferramentas">${a.fluxo.map(f=>`<span class="${f.startsWith('entregar')?'ai':''}">${f}</span>`).join('')}</div>
+    <details class="data"><summary>Ver os dados fictícios que o agente usa</summary>${dataView(cur)}</details>
+    ${a.input?`<label class="lb" for="q">${a.input}</label><textarea id="q" maxlength="300">${esc(res?.pergunta||a.sug[0])}</textarea><div class="chips">${a.sug.map(s=>`<button class="chip" type="button" data-s="${esc(s)}">${esc(s)}</button>`).join('')}</div>`:''}
+    <button class="btn" id="run" ${busy?'disabled':''}>${busy?'<span class="spinner" aria-hidden="true"></span>O agente está trabalhando…':'Rodar o agente'}</button>
+  </div>
+  <div class="box" aria-live="polite">${res?result(res):'<div class="empty">Rode o agente para ver cada passo que ele deu e a entrega final.</div>'}</div>`;
+  $('#run').onclick=run;
+  document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{$('#q').value=c.dataset.s});
+  const ap=$('#ap'),re=$('#re');if(ap)ap.onclick=()=>{last[cur].aprovado=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});render()};if(re)re.onclick=run;
+}
+
+async function run(){if(busy)return;const a=AG.find(x=>x.id===cur),q=$('#q')?.value.trim()||'';busy=true;const id=cur;render();
+  try{const r=await fetch('/api/agente',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({agente:id,pergunta:q})});const j=await r.json().catch(()=>({}));
+    last[id]=r.ok?{...j,pergunta:q}:{erro:j.message||'Não foi possível rodar o agente.',pergunta:q}}
+  catch(e){last[id]={erro:'Sem conexão. Tente de novo.',pergunta:q}}
+  busy=false;if(id===cur)render()}
+
+function stepLine(p){const rec=p.resultado&&p.resultado.problemas;const fin=p.ferramenta.startsWith('entregar');
+  const args=Object.keys(p.args||{}).length?esc(JSON.stringify(p.args)).slice(0,160):'sem parâmetros';
+  return`<li class="${rec?'no':fin?'ok':''}"><div><code>${p.ferramenta}</code>${rec?' · <b>recusado pela conferência</b>':fin?' · <b>aceito</b>':''}<small>${args}</small>
+   ${rec?`<small>${esc(p.resultado.problemas.join(' · '))}</small>`:''}
+   ${!fin?`<details><summary>Ver resultado da ferramenta</summary><pre>${esc(JSON.stringify(p.resultado,null,1)).slice(0,3000)}</pre></details>`:''}</div></li>`}
+
+function result(r){if(r.erro)return`<div class="err">${esc(r.erro)}</div>`;
+  const e=r.entrega;let body='';
+  if(r.agente==='demandas'){const d=dados.demandas,eq=d?.equipe||[];const by={};e.atribuicoes.forEach(x=>(by[x.pessoa]??=[]).push(x.demanda_id));
+    body=`<p>${esc(e.resumo)}</p><div class="people">${eq.map(p=>{const c=e.carga_min_por_pessoa[p.pessoa]||0;return`<div class="person"><b>${p.pessoa}</b><span>${(by[p.pessoa]||[]).join(', ')||'—'}</span><div class="load" title="${c} de ${p.minutos_livres} min"><i style="width:${Math.min(100,c/p.minutos_livres*100)}%"></i></div><small>${c} de ${p.minutos_livres} min</small></div>`}).join('')}</div>`}
+  if(r.agente==='prazos'){const cls={vencido:'p-venc',urgente:'p-urg','atenção':'p-at','no prazo':'p-ok'};
+    body=`<p>${esc(e.resumo)}</p><div class="tbl"><table><thead><tr><th>Processo</th><th>Situação</th><th class="n">Dias</th><th>Ação de hoje</th></tr></thead><tbody>${e.prioridades.map(p=>`<tr><td><b>${p.id}</b><br><small>${esc(p.assunto||'')}</small></td><td><span class="pill ${cls[p.situacao]||''}">${esc(p.situacao||'')}</span></td><td class="n">${p.dias_restantes??''}</td><td>${esc(p.acao)} <small>(${esc(p.responsavel)})</small></td></tr>`).join('')}</tbody></table></div>`}
+  if(r.agente==='vendas')body=`<p class="answer">${esc(e.resposta)}</p>${e.numeros?.length?`<div class="tbl"><table><thead><tr><th>Número citado</th><th>De onde veio</th></tr></thead><tbody>${e.numeros.map(n=>`<tr><td>${esc(n.valor)}</td><td><code>${esc(n.origem)}</code></td></tr>`).join('')}</tbody></table></div>`:''}`;
+  if(r.agente==='layout')body=mock(e);
+  return`<span class="tag">Entrega do agente</span>${body}
+   <div class="approve">${r.aprovado?`<div class="ok-msg">Aprovado por você às ${r.aprovado}. É uma demonstração: nada foi enviado.</div>`:`<p><b>Revisão humana:</b> confira a entrega e o caminho abaixo antes de aprovar.</p><div class="row"><button class="btn" id="ap">Aprovar</button><button class="btn ghost" id="re">Pedir outra versão</button></div>`}</div>
+   <div><span class="tag">Caminho do agente</span><ol class="steps" style="margin-top:10px">${r.passos.map(stepLine).join('')}</ol></div>
+   <div class="meta"><span>${esc(r.modelo)}</span><span>${(r.ms/1000).toFixed(1)} s</span><span>${r.passos.length} passos</span><span>${r.tokens} tokens</span></div>`}
+
+const loaded=new Set();
+function mock(e){const c=e.paleta,ft=e.fonte_titulo,fx=e.fonte_texto;
+  [ft,fx].forEach(f=>{if(!loaded.has(f)){loaded.add(f);const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+encodeURIComponent(f).replace(/%20/g,'+')+':wght@400;700&display=swap';document.head.appendChild(l)}});
+  return`<p><b>${esc(e.nome_do_site)}:</b> ${esc(e.conceito)}</p>
+   <div class="swatches">${[['fundo',c.fundo],['texto',c.texto],['destaque',c.destaque],['texto no botão',c.texto_no_destaque]].map(([k,v])=>`<span><i style="background:${esc(v)}"></i>${k} ${esc(v)}</span>`).join('')}</div>
+   <p style="font-size:.85rem">Contraste do texto ${String(e.contraste_texto).replace('.',',')}:1 e do botão ${String(e.contraste_botao).replace('.',',')}:1 (mínimo 4,5:1). Fontes: ${esc(ft)} e ${esc(fx)}.</p>
+   <div class="mock" style="background:${esc(c.fundo)};color:${esc(c.texto)};font-family:'${esc(fx)}',system-ui,sans-serif">
+    <div class="bar" style="color:var(--ink)"><i></i><i></i><i></i>${esc(e.nome_do_site)}</div>
+    ${e.secoes.map((s,i)=>`<section class="${s.tipo==='hero'?'shero':''}"><span class="kind">${esc(s.tipo)}</span><h4 style="font-family:'${esc(ft)}',Georgia,serif">${esc(s.titulo)}</h4><p>${esc(s.texto)}</p>${i===0?`<span class="cta" style="background:${esc(c.destaque)};color:${esc(c.texto_no_destaque)}">${esc(e.botao_principal)}</span>`:''}</section>`).join('')}
+   </div>`}
+route();
+</script>
+</body>
+</html>
